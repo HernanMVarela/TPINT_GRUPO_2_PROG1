@@ -63,8 +63,8 @@ public class ClientesController {
 	
 	// ALTA DE NUEVO CLIENTE | "/alta_cliente.html"
 	@RequestMapping(value ="/alta_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView validarArticulo(long DNI, String nombre, String apellido, String correo, Date fecha_nac, String telefono, 
-										String nacionalidad, int id_loc, String direccion, String codpostal, int id_estado){
+	public ModelAndView validarCliente(String DNI, String nombre, String apellido, String correo, Date fecha_nac, String telefono, 
+										String nacionalidad, int localidad, String direccion, String codpostal){
 		
 		ModelAndView MV = new ModelAndView();
 		
@@ -77,10 +77,10 @@ public class ClientesController {
 		
 		cliente.setPersona(persona);
 		cliente.setNacionalidad(nacionalidad);
-		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(id_loc));
+		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(localidad));
 		cliente.setDireccion(direccion);
 		cliente.setCodpostal(codpostal);
-		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(id_estado));
+		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(1));
 
 		String Message = "";
 		try{
@@ -105,7 +105,7 @@ public class ClientesController {
 	
 	// MODIFICAR CLIENTE | "/modificar_cliente.html"
 	@RequestMapping(value ="/modificar_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView modificarCliente(int ID, String correo, String telefono, int id_loc, String direccion, String codpostal, int id_estado){
+	public ModelAndView modificarCliente(int ID, String correo, String telefono, int localidad, String direccion, String codpostal, int id_estado){
 		
 		ModelAndView MV = new ModelAndView();
 		
@@ -114,7 +114,7 @@ public class ClientesController {
 		
 		cliente.setID(ID);
 		cliente.setPersona(persona);
-		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(id_loc));
+		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(localidad));
 		cliente.setDireccion(direccion);
 		cliente.setCodpostal(codpostal);
 		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(id_estado));
@@ -209,7 +209,6 @@ public class ClientesController {
 	{
 		MV.addObject("listaClientes",this.serviceCliente.obtenerClientes());
 		MV.addObject("listaLocalidades",this.serviceLocalidad.obtenerLocalidades());
-		MV.addObject("listaProvincias",this.serviceProvincia.obtenerProvincias());
 		return MV;
 	}
 	

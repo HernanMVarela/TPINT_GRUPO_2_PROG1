@@ -7,13 +7,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RegisterController {
 
-	// ALTA USER | "alta-usuario.html"
+	// ALTA USER | "registro-usuario.html"
 	@RequestMapping("registro-usuario.html")
 	public ModelAndView eventoRedireccionarAltaUsuario()
 	{
 		ModelAndView MV = new ModelAndView();
 		
-		MV.setViewName("registro/RegistroUsuario");
+		MV.setViewName("RegistroUsuario");
 		return MV;
 	}	
 }

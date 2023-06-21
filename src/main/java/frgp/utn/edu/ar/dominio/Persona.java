@@ -3,15 +3,15 @@ package frgp.utn.edu.ar.dominio;
 import java.io.Serializable;
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "PERSONAS")
 public class Persona implements Serializable {
 	
@@ -19,7 +19,7 @@ public class Persona implements Serializable {
 
 	@Id
 	@Column(name="DNI")
-	private long DNI;
+	private String DNI;
 	
 	@Column(name="NOMBRE", nullable = false)
 	private String nombre;
@@ -39,11 +39,11 @@ public class Persona implements Serializable {
 		return "Cliente [DNI=" + DNI + ", nombre=" + nombre + ", apellido=" + apellido + ", fecha_nac=" + fecha_nac + ", correo=" + correo + ", telefono=" + telefono + "]";
 	}
 
-	public long getDNI() {
+	public String getDNI() {
 		return DNI;
 	}
 
-	public void setDNI(long dNI) {
+	public void setDNI(String dNI) {
 		DNI = dNI;
 	}
 

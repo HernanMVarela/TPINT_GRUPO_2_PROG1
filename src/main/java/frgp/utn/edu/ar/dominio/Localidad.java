@@ -36,35 +36,23 @@ public class Localidad implements Serializable {
 	{
 		this.nombre=nombre;
 	}
-
-	@Override
-	public String toString() {
-		return "Localidad [ID=" + ID + ", localidad=" + nombre + ", provincia=" + provincia + "]";
-	}
-
 	public int getID() {
 		return ID;
 	}
-
 	public void setID(int iD) {
 		ID = iD;
 	}
-
-	public String getLocalidad() {
+	public String getNombre() {
 		return nombre;
 	}
-
-	public void setLocalidad(String localidad) {
-		this.nombre = localidad;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-
 	public Provincia getProvincia() {
 		return provincia;
 	}
-
 	public void setProvincia(Provincia provincia) {
 		this.provincia = provincia;
 	}
-	
 	
 }

@@ -12,7 +12,7 @@ public class PersonaServicioImpl implements PersonaServicio{
 		this.dataAccess = dataAccess;
 	}
 
-	public Persona obtenerUnRegistro(long DNI) {
+	public Persona obtenerUnRegistro(String DNI) {
 		return dataAccess.obtenerPersonaPorDNI(DNI);
 	}
 
@@ -22,7 +22,7 @@ public class PersonaServicioImpl implements PersonaServicio{
 	}
 
 	@Override
-	public void eliminarPersona(long DNI) {
+	public void eliminarPersona(String DNI) {
 		dataAccess.eliminarPersona(DNI);
 	}
 

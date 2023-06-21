@@ -4,11 +4,11 @@ import frgp.utn.edu.ar.dominio.Persona;
 
 public interface PersonaServicio {
 
-	public Persona obtenerUnRegistro(long DNI);
+	public Persona obtenerUnRegistro(String DNI);
 
 	public boolean insertarPersona(Persona nuevo);
 
-	public void eliminarPersona(long DNI) ;
+	public void eliminarPersona(String DNI) ;
 
 	public boolean actualizarPersona(Persona modificar);
 	

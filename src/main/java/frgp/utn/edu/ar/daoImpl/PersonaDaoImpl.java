@@ -29,19 +29,19 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=true)
-	public Persona obtenerPersonaPorDNI(long DNI) {
+	public Persona obtenerPersonaPorDNI(String DNI) {
 		return this.hibernateTemplate.get(Persona.class, DNI);
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=true)
-	public boolean existePersona(long DNI) {
+	public boolean existePersona(String DNI) {
 		return this.hibernateTemplate.get(Persona.class, DNI) != null;
 	}
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public void eliminarPersona(long DNI) {
+	public void eliminarPersona(String DNI) {
 		Persona art = new Persona();
 		art.setDNI(DNI);
 		this.hibernateTemplate.delete(art);
