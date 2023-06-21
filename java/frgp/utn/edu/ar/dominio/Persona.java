@@ -4,23 +4,15 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "PERSONAS")
+@MappedSuperclass
 public class Persona implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Id
 	@Column(name="DNI")
-	private String DNI;
-	
+	private String DNI;	
 	@Column(name="NOMBRE", nullable = false)
 	private String nombre;
 	@Column(name="APELLIDO", nullable = false)
@@ -86,5 +78,6 @@ public class Persona implements Serializable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
 	
 }

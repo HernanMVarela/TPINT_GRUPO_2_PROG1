@@ -8,27 +8,8 @@
 
           <script type="text/javascript">
             $(document).ready(function () {
-              $('#tabla_articulos').DataTable();
+              $('#tabla_prestamos').DataTable();
             });
-
-            function abrirModificarModal(nombre, marca, descripcion, tipo, precio_venta) {
-
-              $('#nombre').val(nombre);
-              $('#marca').val(marca);
-              $('#descripcion').val(descripcion);
-              $('#tipo').val(tipo);
-              $('#precio_venta').val(precio_venta);
-
-            }
-
-            function abrirEliminarModal(nombre, marca, descripcion, tipo, precio_venta) {
-
-              $('#nombreEliminar').val(nombre);
-              $('#marcaEliminar').val(marca);
-              $('#descripcionEliminar').val(descripcion);
-              $('#tipoEliminar').val(tipo);
-              $('#precio_ventaEliminar').val(precio_venta);
-            }
 
           </script>
 	<%@ include file="common/Header.jspf"%>
@@ -41,11 +22,11 @@
               <div class="p-5 bg-light border rounded-3" style="width: 100%">
                 <div class="d-flex  align-content-center bd-highlight mb-3">
                   <div class="me-auto p-2 bd-highlight align-self-center">
-                    <h1>ARTICULOS</h1>
+                    <h1>PRESTAMOS</h1>
                   </div>
                   <div class="p-2 bd-highlight align-self-center">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
-                      AGREGAR ARTICULO
+                      AGREGAR PRESTAMO
                     </button>
                   </div>
                 </div>
@@ -55,44 +36,35 @@
                     <table id="tabla_articulos" class="table table-hover text-center">
                       <thead>
                         <tr>
-                          <th class="text-center" scope="col"> Articulo </th>
-                          <th class="text-center" scope="col"> Marca </th>
-                          <th class="text-center" scope="col"> Tipo </th>
-                          <th class="text-center" scope="col"> Precio de venta </th>
-                          <th class="text-center" scope="col"> Descripcion </th>
+                          <th class="text-center" scope="col"> Numero </th>
+                          <th class="text-center" scope="col"> Fecha </th>
+                          <th class="text-center" scope="col"> DNI </th>
+                          <th class="text-center" scope="col"> Nombre y apelldio </th>
+                          <th class="text-center" scope="col"> Monto </th>
+                          <th class="text-center" scope="col"> Cuotas </th>
                           <th></th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <c:forEach items="${listaArticulos}" var="item">
-                          <c:if test="${item.estado eq true}">                        
+                        <c:forEach items="${listaPrestamos}" var="item">
+                          <c:if test="${item.monto > 0}">                        
                           <tr>
-                            <td>${item.nombre} </td>
-                            <td>${item.marca}</td>
-                            <td>${item.tipo}</td>
-                            <td>${item.precio_venta}</td>
-                            <td>${item.descripcion}</td>
+                            <td>${item.numPrestamo} </td>
+                            <td>${item.fecha}</td>
+                            <td>${item.cliente.DNI}</td>
+                            <td>${item.cliente.nombre + ' ' + item.cliente.apellido}</td>
+                            <td>${item.monto}</td>
+                            <td>${item.cuotas}</td>
                             <td>
                               <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#modifyItemModal" 
-                                onclick="abrirModificarModal('${item.nombre}',
-                                                             '${item.marca}',
-                                                             '${item.descripcion}',
-                                                             '${item.tipo}',
-                                                             '${item.precio_venta}',
-                                                             '${item.estado}')">
+                                data-bs-target="#modifyItemModal">
                                 MODIFICAR
                               </button>
                             </td>
                             <td>
                               <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#deleteItemModal" onclick="abrirEliminarModal('${item.nombre}',
-                                                                                              '${item.marca}',
-                                                                                              '${item.descripcion}',
-                                                                                              '${item.tipo}',
-                                                                                              '${item.precio_venta}',
-                                                                                              '${item.estado}')">
+                                data-bs-target="#deleteItemModal">
                                 ELIMINAR
                               </button>
                             </td>
@@ -111,58 +83,18 @@
              </div>
           </div>
 
-          <!-- Modal ELIMINAR ARTICULO -->
+          <!-- Modal ELIMINAR PRESTAMO -->
           <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <form action="eliminar_articulo.html" method="post">
+                <form action="eliminar_prestamo.html" method="post">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">¿DESEA ELIMINAR EL SIGUIENTE ARTICULO?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">¿DESEA ELIMINAR EL SIGUIENTE PRESTAMO?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">                  
-                  	 <div class="row d-flex align-items-center">
-	                      <div class="col-md-4">
-	                        <label>NOMBRE:</label>
-	                      </div>
-	                      <div class="col-md-8">
-	                        <input id="nombreEliminar" name="nombreEliminar" class="form-control mt-1" readonly>
-	                      </div>
-	                      <div class="col-md-4">  
-	                        <label>MARCA:</label>
-	                      </div>
-	                      <div class="col-md-8">
-		                      <select class="form-select" name="marcaEliminar">
-							    <c:forEach items="${listaMarcas}" var="Marca">
-							        <option id="${Marca.ID}" value="${Marca.ID}">${Marca.nombre}</option>
-							    </c:forEach>
-							  </select>
-	                          <input id="marcaEliminar" name="marcaEliminar" class="form-control mt-1" readonly>
-	                      </div>
-	                      <div class="col-md-4">
-	                        <label>DESCRIPCION:</label>
-	                      </div>
-	                      <div class="col-md-8">
-	                        <input id="descripcionEliminar" name="descripcionEliminar" class="form-control mt-1" id="textAreaExample1" readonly>
-	                      </div>
-	                      <div class="col-md-4">
-	                        <label>TIPO:</label>
-	                      </div>
-	                      <div class="col-md-8">
-	                      <select class="form-select" name="tipoEliminar">
-						    <c:forEach items="${listaTipoArticulos}" var="TipoArticulos">
-						        <option id="${TipoArticulos.ID}" value="${TipoArticulos.ID}">${TipoArticulos.nombre}</option>
-						    </c:forEach>
-						  </select>
-	                      </div>
-	                      <div class="col-md-4">
-	                        <label>PRECIO:</label>
-	                      </div>
-	                      <div class="col-md-8">                     
-	                        <input id="precio_ventaEliminar" type="number" name="precio_ventaEliminar" class="form-control mt-1" readonly>
-	                      </div>
-                      </div>                            
+                  	 <!--  AGREGAR CUERPO DEL MODAL -->                            
                   </div>                   
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CANCELAR</button>
@@ -173,54 +105,19 @@
             </div>
           </div>
 
-          <!-- Modal MODIFICAR ARTICULO -->
+          <!-- Modal MODIFICAR PRESTAMO -->
           <div class="modal fade" id="modifyItemModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <form action="modificar_articulo.html" method="post">
+                <form action="modificar_prestamo.html" method="post">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">MODIFICAR ARTICULO</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">MODIFICAR PRESTAMO</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <div class="row align-items-md-stretch">
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Nombre</label>
-                        <input id="nombre" name="nombre" class="form-control" readonly>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Marca</label>
-                        <select class="form-select" name="marca">
-						    <c:forEach items="${listaMarcas}" var="Marca">
-						        <option id="${Marca.ID}" value="${Marca.ID}">${Marca.nombre}</option>
-						    </c:forEach>
-						  </select>
-                      </div>
-                    </div>
-
-                    <div class="row align-items-md-stretch mt-1">
-                      <div class="form-group col-md-12">
-                        <label style="float: left">Descripcion</label>
-                        <textarea id="descripcion" name="descripcion" class="form-control" id="textAreaExample1"
-                          rows="4"></textarea>
-                      </div>
-                    </div>
-
-                    <div class="row align-items-md-stretch mt-1">
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Tipo</label>
-                         <select class="form-select" name="tipo">
-						    <c:forEach items="${listaTipoArticulos}" var="TipoArticulos">
-						        <option id="${TipoArticulos.ID}" value="${TipoArticulos.ID}">${TipoArticulos.nombre}</option>
-						    </c:forEach>
-						</select>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Precio de venta</label>
-                        <input id="precio_venta" type="number" name="precio_venta" class="form-control">
-                      </div>
-                    </div>
+                   	
+                   	<!--  AGREGAR CUERPO DEL MODAL -->  
 
                   </div>
                   <div class="modal-footer">
@@ -232,55 +129,17 @@
             </div>
           </div>
 
-          <!-- Modal AGREGAR ARTICULO -->
-          <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+          <!-- Modal AGREGAR PRESTAMO -->
+          <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
               <div class="modal-content">
-                <form action="alta_articulo.html" method="post">
+                <form action="alta_prestamo.html" method="post">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">AGREGAR ARTICULO</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">AGREGAR PRESTAMO</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    <div class="row align-items-md-stretch">
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Nombre</label>
-                        <input name="nombre" class="form-control" placeholder="Ingrese nombre">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Marca</label>
-                        <select class="form-select" name="marca">
-						    <c:forEach items="${listaMarcas}" var="Marca">
-						        <option id="${Marca.ID}" value="${Marca.ID}">${Marca.nombre}</option>
-						    </c:forEach>
-						  </select>
-                      </div>
-                    </div>
-
-                    <div class="row align-items-md-stretch mt-1">
-                      <div class="form-group col-md-12">
-                        <label style="float: left">Descripcion</label>
-                        <textarea name="descripcion" class="form-control" id="textAreaExample1" rows="4"
-                          placeholder="Ingrese descripcion"></textarea>
-                      </div>
-                    </div>
-
-                    <div class="row align-items-md-stretch mt-1">
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Tipo</label>
-                        <select class="form-select" name="tipo">
-						    <c:forEach items="${listaTipoArticulos}" var="TipoArticulos">
-						        <option id="${TipoArticulos.ID}" value="${TipoArticulos.ID}">${TipoArticulos.nombre}</option>
-						    </c:forEach>
-						</select>
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label style="float: left">Precio de venta</label>
-                        <input type="number" name="precio_venta" class="form-control"
-                          placeholder="Ingrese precio de compra">
-                      </div>
-                    </div>
+                    <!--  AGREGAR CUERPO DEL MODAL -->  
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CANCELAR</button>

@@ -22,9 +22,6 @@
 	<!-- |||| ENTIDADES |||| -->
 	<bean id="ClienteEstandar" class="frgp.utn.edu.ar.dominio.Cliente">
 	</bean>
-	<bean id="PersonaEstandar" class="frgp.utn.edu.ar.dominio.Persona">
-	</bean>
-
 	
 	<!--||| CREO EL SERVICIO PARA CLIENTE |||-->
 	<bean id="ClienteServiceBean" class="frgp.utn.edu.ar.servicioImpl.ClienteServicioImpl">
@@ -32,16 +29,6 @@
 	</bean>
 	<!-- CLIENTE DAO  -->
 	<bean id="ClienteDABean" class="frgp.utn.edu.ar.daoImpl.ClienteDaoImpl" 
-		scope="singleton"> 
-		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
-	</bean>
-	
-	<!--||| CREO EL SERVICIO PARA PERSONA |||-->
-	<bean id="PersonaServiceBean" class="frgp.utn.edu.ar.servicioImpl.PersonaServicioImpl">
-		<property name="dataAccess" ref="PersonaDABean"></property>
-	</bean>
-	<!--PERSONA DAO -->
-	<bean id="PersonaDABean" class="frgp.utn.edu.ar.daoImpl.PersonaDaoImpl" 
 		scope="singleton"> 
 		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
 	</bean>

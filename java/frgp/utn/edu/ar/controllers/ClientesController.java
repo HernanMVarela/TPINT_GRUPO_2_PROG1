@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
-import frgp.utn.edu.ar.servicio.PersonaServicio;
 import frgp.utn.edu.ar.servicio.LocalidadServicio;
 import frgp.utn.edu.ar.dominio.Cliente;
-import frgp.utn.edu.ar.dominio.Persona;
 import frgp.utn.edu.ar.servicio.ClienteServicio;
 import frgp.utn.edu.ar.servicio.EstadoClienteServicio;
 import frgp.utn.edu.ar.servicio.ProvinciaServicio;
@@ -21,8 +19,6 @@ import frgp.utn.edu.ar.servicio.ProvinciaServicio;
 @Controller
 public class ClientesController {
 
-	@Autowired
-	public  PersonaServicio servicePersona;
 	@Autowired
 	public  ProvinciaServicio serviceProvincia;
 	@Autowired
@@ -34,21 +30,17 @@ public class ClientesController {
 	
 	@Autowired
 	public  Cliente cliente;
-	@Autowired
-	public  Persona persona;
-	
+
 	// NO TOCAR - Servlets
 	public void init(ServletConfig config) {
 		ApplicationContext ctx = WebApplicationContextUtils
 				.getRequiredWebApplicationContext(config.getServletContext());
 		
-		this.servicePersona = (PersonaServicio) ctx.getBean("PersonaServiceBean");
 		this.serviceProvincia = (ProvinciaServicio) ctx.getBean("ProvinciaServiceBean");
 		this.serviceLocalidad = (LocalidadServicio) ctx.getBean("LocalidadServiceBean");
 		this.serviceCliente = (ClienteServicio) ctx.getBean("ClienteServiceBean");
 		this.serviceEstadoCliente = (EstadoClienteServicio) ctx.getBean("EstadoClienteServiceBean");
 		this.cliente = (Cliente) ctx.getBean("ClienteEstandar");
-		this.persona = (Persona) ctx.getBean("PersonaEstandar");
 	}	
 		
 	/// AMBL CLIENTES | "Clientes.html"
@@ -63,24 +55,25 @@ public class ClientesController {
 	
 	// ALTA DE NUEVO CLIENTE | "/alta_cliente.html"
 	@RequestMapping(value ="/alta_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView validarCliente(String DNI, String nombre, String apellido, String correo, Date fecha_nac, String telefono, 
-										String nacionalidad, int localidad, String direccion, String codpostal){
+	public ModelAndView validarCliente(String DNINuevo, String nombreNuevo, String apellidoNuevo, String correoNuevo, Date fechaNuevo, 
+									   String telefonoNuevo, String nacioNuevo, int localidad, String direcNuevo, String codpostalNuevo){
 		
 		ModelAndView MV = new ModelAndView();
 		
-		persona.setDNI(DNI);
-		persona.setNombre(nombre);
-		persona.setApellido(apellido);
-		persona.setCorreo(correo);
-		persona.setFecha_nac(fecha_nac);
-		persona.setTelefono(telefono);
+		cliente.setDNI(DNINuevo);
+		cliente.setNombre(nombreNuevo);
+		cliente.setApellido(apellidoNuevo);
+		cliente.setCorreo(correoNuevo);
+		cliente.setFecha_nac(fechaNuevo);
+		cliente.setTelefono(telefonoNuevo);
 		
-		cliente.setPersona(persona);
-		cliente.setNacionalidad(nacionalidad);
+		cliente.setNacionalidad(nacioNuevo);
 		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(localidad));
-		cliente.setDireccion(direccion);
-		cliente.setCodpostal(codpostal);
+		cliente.setDireccion(direcNuevo);
+		cliente.setCodpostal(codpostalNuevo);
 		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(1));
+		
+		System.out.println(cliente.toString());
 
 		String Message = "";
 		try{
@@ -105,19 +98,18 @@ public class ClientesController {
 	
 	// MODIFICAR CLIENTE | "/modificar_cliente.html"
 	@RequestMapping(value ="/modificar_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView modificarCliente(int ID, String correo, String telefono, int localidad, String direccion, String codpostal, int id_estado){
+	public ModelAndView modificarCliente(int ID, String correoModif, String telefonoModif, int LocalidadModif, String direcModif, String codpostalModif){
 		
 		ModelAndView MV = new ModelAndView();
 		
-		persona.setCorreo(correo);
-		persona.setTelefono(telefono);
+		cliente.setCorreo(correoModif);
+		cliente.setTelefono(telefonoModif);
 		
 		cliente.setID(ID);
-		cliente.setPersona(persona);
-		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(localidad));
-		cliente.setDireccion(direccion);
-		cliente.setCodpostal(codpostal);
-		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(id_estado));
+		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(LocalidadModif));
+		cliente.setDireccion(direcModif);
+		cliente.setCodpostal(codpostalModif);
+		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(1));
 	
 		String Message="";
 		
@@ -129,7 +121,7 @@ public class ClientesController {
 			}
 			MV.addObject("Mensaje", Message);
 			MV = cargadorDeListasClientes(MV);
-			MV.setViewName("vendedor/Articulos"); 
+			MV.setViewName("Clientes"); 
 			return MV;
 		}
 		catch(Exception e)
@@ -160,7 +152,7 @@ public class ClientesController {
 			}
 			MV.addObject("Mensaje", Message);
 			MV = cargadorDeListasClientes(MV);
-			MV.setViewName("vendedor/Articulos"); 
+			MV.setViewName("Clientes"); 
 			return MV;
 		}
 		catch(Exception e)

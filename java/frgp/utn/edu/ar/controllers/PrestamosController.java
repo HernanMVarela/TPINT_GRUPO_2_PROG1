@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class RegisterController {
+public class PrestamosController {
 
-	// ALTA USER | "registro-usuario.html"
-	@RequestMapping("registro-usuario.html")
+	// ALTA USER | "Prestamos.html"
+	@RequestMapping("Prestamos.html")
 	public ModelAndView eventoRedireccionarAltaUsuario()
 	{
 		ModelAndView MV = new ModelAndView();
 		
-		MV.setViewName("RegistroUsuario");
+		MV.setViewName("Prestamos");
 		return MV;
 	}	
 }
