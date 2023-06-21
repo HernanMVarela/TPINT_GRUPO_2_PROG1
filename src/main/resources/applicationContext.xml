@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Transaction Manager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactoryBean"></property>
+	</bean>
+
+	<!-- Para que lea los metodos anotados con @Transactional -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- |||| ENTIDADES |||| -->
+	<bean id="ClienteEstandar" class="frgp.utn.edu.ar.dominio.Cliente">
+	</bean>
+	<bean id="PersonaEstandar" class="frgp.utn.edu.ar.dominio.Persona">
+	</bean>
+	
+	
+	<!--||| CREO EL SERVICIO PARA CLIENTE |||-->
+	<bean id="ClienteServiceBean" class="frgp.utn.edu.ar.servicioImpl.ClienteServicioImpl">
+		<property name="dataAccess" ref="ClienteDABean"></property>
+	</bean>
+	<!-- CLIENTE DAO  -->
+	<bean id="ClienteDABean" class="frgp.utn.edu.ar.daoImpl.ClienteDaoImpl" 
+		scope="singleton"> 
+		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
+	</bean>
+	
+	<!--||| CREO EL SERVICIO PARA PERSONA |||-->
+	<bean id="PersonaServiceBean" class="frgp.utn.edu.ar.servicioImpl.PersonaServicioImpl">
+		<property name="dataAccess" ref="PersonaDABean"></property>
+	</bean>
+	<!--PERSONA DAO  -->
+	<bean id="PersonaDABean" class="frgp.utn.edu.ar.daoImpl.PersonaDaoImpl" 
+		scope="singleton"> 
+		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
+	</bean>
+	
+	<!--||| CREO EL SERVICIO PARA LOCALIDAD |||-->
+	<bean id="LocalidadServiceBean" class="frgp.utn.edu.ar.servicioImpl.LocalidadServicioImpl">
+		<property name="dataAccess" ref="LocalidadDABean"></property>
+	</bean>
+	<!-- LOCALIDAD DAO  -->
+	<bean id="LocalidadDABean" class="frgp.utn.edu.ar.daoImpl.LocalidadDaoImpl" 
+		scope="singleton"> 
+		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
+	</bean>
+	
+	<!--||| CREO EL SERVICIO PARA PROVINCIA |||-->
+	<bean id="ProvinciaServiceBean" class="frgp.utn.edu.ar.servicioImpl.ProvinciaServicioImpl">
+		<property name="dataAccess" ref="ProvinciaDABean"></property>
+	</bean>
+	<!-- PROVINCIA DAO  -->
+	<bean id="ProvinciaDABean" class="frgp.utn.edu.ar.daoImpl.ProvinciaDaoImpl" 
+		scope="singleton"> 
+		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
+	</bean>
+	
+	<!--||| CREO EL SERVICIO PARA ESTADO CLIENTE ||| -->
+	<bean id="EstadoClienteServiceBean" class="frgp.utn.edu.ar.servicioImpl.EstadoClienteServicioImpl">
+		<property name="dataAccess" ref="EstadoClienteDABean"></property>
+	</bean>
+	<!-- ESTADO CLIENTE DAO  -->
+	<bean id="EstadoClienteDABean" class="frgp.utn.edu.ar.daoImpl.EstadoClienteDaoImpl" 
+		scope="singleton"> 
+		<property name="sessionFactory" ref="sessionFactoryBean"></property> 
+	</bean>
+
+	<!-- Define un dataSource, en este bean se configura los parametros de la db -->
+	<bean id="dataSourceBean"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/BD_TPINT_G2_PROG1?createDatabaseIfNotExist=true" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<!-- Session factory de Hibernate -->
+	<bean id="sessionFactoryBean"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceBean" />
+
+		<!-- En esta propiedad deberian agregarse todas las clases anotadas con JPA. -->
+		<property name="annotatedClasses">
+			<list>
+				<value>frgp.utn.edu.ar.dominio.Prestamo</value>
+				<value>frgp.utn.edu.ar.dominio.Persona</value>
+				<value>frgp.utn.edu.ar.dominio.Localidad</value>
+				<value>frgp.utn.edu.ar.dominio.Provincia</value>
+				<value>frgp.utn.edu.ar.dominio.Cliente</value>
+				<value>frgp.utn.edu.ar.dominio.Estado_Cli</value>
+				<value>frgp.utn.edu.ar.dominio.Usuario</value>
+				<value>frgp.utn.edu.ar.dominio.Tipo_Usuario</value>
+				<value>frgp.utn.edu.ar.dominio.Estado_User</value>	
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="show_sql">true</prop >
+				
+				<!-- CREACION DE LA BASE -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop> 
+			</props>
+		</property>
+	</bean>
+	
+</beans>
