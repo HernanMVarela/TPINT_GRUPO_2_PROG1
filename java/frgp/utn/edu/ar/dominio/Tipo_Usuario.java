@@ -19,6 +19,7 @@ public class Tipo_Usuario implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_TIPOUSER")
 	private int ID;
+	
 	@Column(name="NOMBRE", nullable = false)
 	private String nombre;
 	

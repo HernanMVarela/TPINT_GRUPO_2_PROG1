@@ -30,6 +30,8 @@ public class ClientesController {
 	
 	@Autowired
 	public  Cliente cliente;
+	@Autowired
+	private ModelAndView MV;
 
 	// NO TOCAR - Servlets
 	public void init(ServletConfig config) {
@@ -41,13 +43,13 @@ public class ClientesController {
 		this.serviceCliente = (ClienteServicio) ctx.getBean("ClienteServiceBean");
 		this.serviceEstadoCliente = (EstadoClienteServicio) ctx.getBean("EstadoClienteServiceBean");
 		this.cliente = (Cliente) ctx.getBean("ClienteEstandar");
+		this.MV = (ModelAndView) ctx.getBean("ModelAndViewBean");
 	}	
 		
 	/// AMBL CLIENTES | "Clientes.html"
 	@RequestMapping("Clientes.html")
 	public ModelAndView eventoRedireccionarArticulos()
 	{
-		ModelAndView MV = new ModelAndView();
 		MV = cargadorDeListasClientes(MV);
 		MV.setViewName("Clientes");
 		return MV;
@@ -55,25 +57,21 @@ public class ClientesController {
 	
 	// ALTA DE NUEVO CLIENTE | "/alta_cliente.html"
 	@RequestMapping(value ="/alta_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView validarCliente(String DNINuevo, String nombreNuevo, String apellidoNuevo, String correoNuevo, Date fechaNuevo, 
-									   String telefonoNuevo, String nacioNuevo, int localidad, String direcNuevo, String codpostalNuevo){
-		
-		ModelAndView MV = new ModelAndView();
-		
+	public ModelAndView validarCliente(String DNINuevo, String nomNuevo, String apeNuevo, String corNuevo, Date fechaNuevo, 
+									   String telNuevo, String nacioNuevo, int localidadNuevo, String direcNuevo, String codPostalNuevo){
+				
 		cliente.setDNI(DNINuevo);
-		cliente.setNombre(nombreNuevo);
-		cliente.setApellido(apellidoNuevo);
-		cliente.setCorreo(correoNuevo);
+		cliente.setNombre(nomNuevo);
+		cliente.setApellido(apeNuevo);
+		cliente.setCorreo(corNuevo);
 		cliente.setFecha_nac(fechaNuevo);
-		cliente.setTelefono(telefonoNuevo);
+		cliente.setTelefono(telNuevo);
 		
 		cliente.setNacionalidad(nacioNuevo);
-		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(localidad));
+		cliente.setLocalidad(serviceLocalidad.obtenerUnRegistro(localidadNuevo));
 		cliente.setDireccion(direcNuevo);
-		cliente.setCodpostal(codpostalNuevo);
+		cliente.setCodpostal(codPostalNuevo);
 		cliente.setEstado(serviceEstadoCliente.obtenerUnRegistro(1));
-		
-		System.out.println(cliente.toString());
 
 		String Message = "";
 		try{
@@ -99,8 +97,6 @@ public class ClientesController {
 	// MODIFICAR CLIENTE | "/modificar_cliente.html"
 	@RequestMapping(value ="/modificar_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView modificarCliente(int ID, String correoModif, String telefonoModif, int LocalidadModif, String direcModif, String codpostalModif){
-		
-		ModelAndView MV = new ModelAndView();
 		
 		cliente.setCorreo(correoModif);
 		cliente.setTelefono(telefonoModif);
@@ -137,7 +133,6 @@ public class ClientesController {
 	// ELIMINAR CLIENTE | "/eliminar_cliente.html"
 	@RequestMapping(value ="/eliminar_cliente.html" , method= { RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView eliminarCliente(int ID){
-		ModelAndView MV = new ModelAndView();
 		
 		Cliente x = serviceCliente.obtenerUnRegistro(ID);
 	
@@ -201,6 +196,7 @@ public class ClientesController {
 	{
 		MV.addObject("listaClientes",this.serviceCliente.obtenerClientes());
 		MV.addObject("listaLocalidades",this.serviceLocalidad.obtenerLocalidades());
+		MV.addObject("listaProvincias",this.serviceProvincia.obtenerProvincias());
 		return MV;
 	}
 	

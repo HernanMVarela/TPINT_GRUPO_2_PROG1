@@ -8,7 +8,6 @@
 <body>
 <%@ include file="common/NavigatorCommon.jspf" %>
 	<div class="container-fluid">
-			<form id="homeForm" method="post">
 				<div class="container">
 					<div class="p-2 mb-2 bg-light border rounded-3" style="width: 100%">
 						<div class="container-fluid py-1">
@@ -19,10 +18,13 @@
 									<p>
 										Si aun no tienes cuenta, puedes registrarte haciendo click en el boton de abajo.
 									</p>
-									<input type="submit" class="btn btn-success mr-1" value="REGISTRARSE" name="btnRedirigir" formaction="Home.html">
+									<form id="Register.html" method="post">
+										<input type="submit" class="btn btn-success mr-1" value="REGISTRARSE" name="btnRedirigir" formaction="Register.html">
+									</form>
 								</div>
 
 								<div class="col-md-8" style="text-align: center;">
+									<form id="Home.html" method="post">
 									<div class="d-flex col col-12 mh-2 justify-content-center p-2">
 										<div class="row w-auto justify-content-center">
 											<img class="img-responsive p-3" style="width: 30%;" src="<c:url value="/assets/login.png"/>"/>
@@ -36,15 +38,15 @@
 										</div>
 
 									</div>
-
+									</form>
 									<hr>
+									
 								</div>
 							</div>
 
 						</div>
 					</div>
 				</div>
-			</form>
 		</div>
 	</body>
 

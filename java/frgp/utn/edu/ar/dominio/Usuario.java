@@ -33,6 +33,10 @@ public class Usuario extends Persona implements Serializable {
 	@JoinColumn(name="ID_TIPOUSER",nullable = false)
 	private Tipo_Usuario tipo;
 	
+	@ManyToOne(cascade= {CascadeType.ALL})
+	@JoinColumn(name="ID_ESTADOUSER",nullable = false)
+	private Estado_User estado;
+	
 	public Usuario() {
 		super();
 	}
@@ -80,5 +84,15 @@ public class Usuario extends Persona implements Serializable {
 	public void setTipo(Tipo_Usuario tipo) {
 		this.tipo = tipo;
 	}
+
+	public Estado_User getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado_User estado) {
+		this.estado = estado;
+	}
 	
+	
+
 }
